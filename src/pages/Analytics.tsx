@@ -410,7 +410,7 @@ function AnimatedPieChart({ data }: { data: any[] }) {
     let currentAngle = -90; // Start from top
 
     // Calculate paths for each segment
-    const segments = chartData.map((item, index) => {
+    const segments = chartData.map((item) => {
         const percentage = (item.value / totalValue) * 100;
         const angle = (item.value / totalValue) * 360;
         const startAngle = currentAngle;

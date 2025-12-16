@@ -101,7 +101,7 @@ function AnimatedPieChart({ data }: { data: any[] }) {
                     ))}
 
                     {/* Glow filters */}
-                    {segments.map((segment, idx) => (
+                    {segments.map((_, idx) => (
                         <filter key={idx} id={`glow-${idx}`} x="-50%" y="-50%" width="200%" height="200%">
                             <feGaussianBlur stdDeviation="4" result="coloredBlur" />
                             <feMerge>
