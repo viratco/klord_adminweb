@@ -1,0 +1,491 @@
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 24px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.dashboard-card {
+    background: white;
+    border-radius: 24px;
+    padding: 24px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+/* Sales Card Styles */
+.sales-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+}
+
+.date-select {
+    background: #F5F5F7;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #1C1C1E;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.expand-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #E5E5E7;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1C1C1E;
+    cursor: pointer;
+}
+
+.sales-info h3 {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.sales-amount {
+    font-size: 32px;
+    font-weight: 700;
+    color: #1C1C1E;
+    font-family: 'Inter', sans-serif;
+}
+
+.sales-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.progress-circle {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: conic-gradient(#F5CE57 58%, #FFF8E1 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.progress-circle::before {
+    content: '';
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    background: white;
+    border-radius: 50%;
+}
+
+.progress-text {
+    position: relative;
+    font-size: 12px;
+    font-weight: 600;
+    color: #1C1C1E;
+}
+
+/* Assistant Card Styles */
+.assistant-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.assistant-tabs {
+    display: flex;
+    gap: 12px;
+}
+
+.assistant-tab {
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.assistant-tab.active {
+    background: #F5CE57;
+    color: white;
+}
+
+.assistant-tab.icon-only {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    justify-content: center;
+    border: 1px solid #E5E5E7;
+    color: #666;
+}
+
+.ai-prompt {
+    background: #F5F3FF;
+    padding: 12px 16px;
+    border-radius: 12px;
+    color: #F5CE57;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 32px;
+}
+
+.chart-container {
+    height: 200px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-top: 20px;
+}
+
+.bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    height: 100%;
+    /* Ensure it takes full height of container */
+    justify-content: flex-end;
+    /* Align content to bottom */
+}
+
+.bars-wrapper {
+    display: flex;
+    gap: 3px;
+    align-items: flex-end;
+    flex: 1;
+    /* Take remaining space above the label */
+    width: 100%;
+    justify-content: center;
+}
+
+.bar {
+    width: 18px;
+    /* Thicker bars */
+    background: #1C1C1E;
+    /* Default to Black (secondary) */
+    border-radius: 20px;
+    transition: height 0.3s ease;
+}
+
+.bar.active {
+    background: #F5CE57;
+}
+
+.bar.secondary {
+    background: #1C1C1E;
+    /* Black */
+}
+
+.bar.primary {
+    background: #F5CE57;
+    /* Yellow */
+}
+
+.bar-label {
+    font-size: 12px;
+    color: #9CA3AF;
+}
+
+/* Bottom Row Grid */
+.bottom-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+}
+
+/* Transfer Card */
+.transfer-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.edit-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1px solid #E5E5E7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #666;
+}
+
+.transfer-avatars {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 32px;
+}
+
+.transfer-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.transfer-stats {
+    display: flex;
+    justify-content: space-between;
+}
+
+.stat-item h4 {
+    font-size: 12px;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 4px;
+}
+
+.stat-item p {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1C1C1E;
+}
+
+/* Daily Transactions */
+.daily-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.legend {
+    display: flex;
+    gap: 16px;
+    font-size: 12px;
+    color: #666;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+}
+
+.dot.send {
+    background: #1C1C1E;
+}
+
+.dot.receive {
+    background: #F5CE57;
+}
+
+.daily-chart {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 160px;
+    /* Increased height */
+    padding-bottom: 0;
+    margin-bottom: -12px;
+    /* Pull chart lower */
+}
+
+.daily-bar-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    /* Align content to bottom */
+    gap: 4px;
+    height: 100%;
+    /* Take full height */
+}
+
+.daily-bars {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.d-bar {
+    width: 16px;
+    border-radius: 8px;
+}
+
+.d-bar.top {
+    background: #1C1C1E;
+}
+
+.d-bar.bottom {
+    background: #F5CE57;
+}
+
+/* Header Buttons */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid #E5E7EB;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #1C1C1E;
+    transition: all 0.2s;
+}
+
+.icon-btn:hover {
+    background: #F9FAFB;
+    transform: translateY(-1px);
+}
+
+.date-pill {
+    height: 48px;
+    padding: 0 20px;
+    border-radius: 24px;
+    background: #1C1C1E;
+    color: white;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 4px 12px rgba(28, 28, 30, 0.15);
+}
+
+.date-pill:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(28, 28, 30, 0.25);
+}
+
+.create-report-btn {
+    height: 48px;
+    padding: 0 24px;
+    border-radius: 24px;
+    background: white;
+    color: #1C1C1E;
+    border: 1px solid #E5E7EB;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.create-report-btn:hover {
+    border-color: #1C1C1E;
+    transform: translateY(-1px);
+}
+
+/* Revenue Graph Animations */
+.revenue-line {
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: drawLine 2s ease-out forwards;
+}
+
+.revenue-area {
+    opacity: 0;
+    animation: fadeInArea 1s ease-out 1s forwards;
+}
+
+.revenue-dot {
+    opacity: 0;
+    transform-origin: center;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes drawLine {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fadeInArea {
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes popIn {
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.graph-tooltip {
+    position: absolute;
+    background: #1C1C1E;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    pointer-events: none;
+    transform: translate(-50%, -100%);
+    margin-top: -10px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 10;
+    white-space: nowrap;
+}
+
+.graph-tooltip.visible {
+    opacity: 1;
+}
+
+.graph-tooltip::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 4px solid #1C1C1E;
+}
