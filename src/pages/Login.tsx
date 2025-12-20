@@ -6,8 +6,11 @@ import { Lock, Mail, ArrowRight, Zap } from 'lucide-react';
 export default function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [otp, setOtp] = useState('');
+    const [showOtp, setShowOtp] = useState(false);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [successMsg, setSuccessMsg] = useState('');
     const navigate = useNavigate();
 
     // Removed auto-redirect to dashboard - users should always see login page first
@@ -21,6 +24,36 @@ export default function Login() {
             const data = await fetchJson('/api/auth/admin/login', {
                 method: 'POST',
                 body: JSON.stringify({ email, password }),
+            });
+
+            if (data.otpRequired) {
+                setShowOtp(true);
+                setSuccessMsg('Verification code sent to your email');
+            } else {
+                // Fallback for unexpected response structure
+                if (data.user?.type === 'admin' && data.token) {
+                    setAuthToken(data.token);
+                    navigate('/app/dashboard');
+                } else {
+                    throw new Error('Unexpected response from server');
+                }
+            }
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleVerifyOtp = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+        setError('');
+
+        try {
+            const data = await fetchJson('/api/auth/admin/verify-otp', {
+                method: 'POST',
+                body: JSON.stringify({ email, otp }),
             });
 
             if (data.user.type !== 'admin') {
@@ -112,6 +145,20 @@ export default function Login() {
                     <p style={{ color: 'rgba(255, 255, 255, 0.6)', fontSize: '15px' }}>Sign in to manage Klord Solar</p>
                 </div>
 
+                {successMsg && !error && (
+                    <div style={{
+                        backgroundColor: 'rgba(52, 211, 153, 0.1)',
+                        color: '#34d399',
+                        padding: '16px',
+                        borderRadius: '16px',
+                        fontSize: '14px',
+                        textAlign: 'center',
+                        border: '1px solid rgba(52, 211, 153, 0.2)'
+                    }}>
+                        {successMsg}
+                    </div>
+                )}
+
                 {error && (
                     <div style={{
                         backgroundColor: 'rgba(239, 68, 68, 0.1)',
@@ -126,86 +173,215 @@ export default function Login() {
                     </div>
                 )}
 
-                <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                    <div style={{ position: 'relative' }}>
-                        <Mail size={20} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'rgba(255, 255, 255, 0.4)' }} />
-                        <input
-                            type="email"
-                            placeholder="Email Address"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            style={{
-                                width: '100%',
-                                padding: '16px 16px 16px 56px',
-                                background: 'rgba(0, 0, 0, 0.3)',
-                                border: '1px solid rgba(255, 255, 255, 0.1)',
-                                borderRadius: '16px',
-                                color: 'white',
-                                fontSize: '15px',
-                                outline: 'none',
-                                transition: 'all 0.2s',
-                                boxSizing: 'border-box'
-                            }}
-                            onFocus={(e) => e.target.style.borderColor = '#FCD34D'}
-                            onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)'}
-                            required
-                        />
-                    </div>
+                {!showOtp ? (
+                    <form onSubmit={handleLogin} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <div style={{ position: 'relative' }}>
+                            <Mail size={20} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'rgba(255, 255, 255, 0.4)' }} />
+                            <input
+                                type="email"
+                                placeholder="Email Address"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                style={{
+                                    width: '100%',
+                                    padding: '16px 16px 16px 56px',
+                                    background: 'rgba(0, 0, 0, 0.2)',
+                                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                                    borderRadius: '16px',
+                                    color: 'white',
+                                    fontSize: '15px',
+                                    outline: 'none',
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    boxSizing: 'border-box'
+                                }}
+                                onFocus={(e) => {
+                                    e.target.style.borderColor = '#FCD34D';
+                                    e.target.style.boxShadow = '0 0 0 4px rgba(252, 211, 77, 0.1)';
+                                }}
+                                onBlur={(e) => {
+                                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                                    e.target.style.boxShadow = 'none';
+                                }}
+                                required
+                            />
+                        </div>
 
-                    <div style={{ position: 'relative' }}>
-                        <Lock size={20} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'rgba(255, 255, 255, 0.4)' }} />
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            style={{
-                                width: '100%',
-                                padding: '16px 16px 16px 56px',
-                                background: 'rgba(0, 0, 0, 0.3)',
-                                border: '1px solid rgba(255, 255, 255, 0.1)',
-                                borderRadius: '16px',
-                                color: 'white',
-                                fontSize: '15px',
-                                outline: 'none',
-                                transition: 'all 0.2s',
-                                boxSizing: 'border-box'
-                            }}
-                            onFocus={(e) => e.target.style.borderColor = '#FCD34D'}
-                            onBlur={(e) => e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)'}
-                            required
-                        />
-                    </div>
+                        <div style={{ position: 'relative' }}>
+                            <Lock size={20} style={{ position: 'absolute', left: '20px', top: '50%', transform: 'translateY(-50%)', color: 'rgba(255, 255, 255, 0.4)' }} />
+                            <input
+                                type="password"
+                                placeholder="Password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                style={{
+                                    width: '100%',
+                                    padding: '16px 16px 16px 56px',
+                                    background: 'rgba(0, 0, 0, 0.2)',
+                                    border: '1px solid rgba(255, 255, 255, 0.1)',
+                                    borderRadius: '16px',
+                                    color: 'white',
+                                    fontSize: '15px',
+                                    outline: 'none',
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    boxSizing: 'border-box'
+                                }}
+                                onFocus={(e) => {
+                                    e.target.style.borderColor = '#FCD34D';
+                                    e.target.style.boxShadow = '0 0 0 4px rgba(252, 211, 77, 0.1)';
+                                }}
+                                onBlur={(e) => {
+                                    e.target.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                                    e.target.style.boxShadow = 'none';
+                                }}
+                                required
+                            />
+                        </div>
 
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        style={{
-                            marginTop: '12px',
-                            padding: '16px',
-                            background: 'white',
-                            color: 'black',
-                            border: 'none',
-                            borderRadius: '16px',
-                            fontSize: '16px',
-                            fontWeight: '700',
-                            cursor: loading ? 'not-allowed' : 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            gap: '8px',
-                            transition: 'transform 0.1s',
-                            opacity: loading ? 0.7 : 1
-                        }}
-                        onMouseDown={(e) => !loading && (e.currentTarget.style.transform = 'scale(0.98)')}
-                        onMouseUp={(e) => !loading && (e.currentTarget.style.transform = 'scale(1)')}
-                        onMouseLeave={(e) => !loading && (e.currentTarget.style.transform = 'scale(1)')}
-                    >
-                        {loading ? 'Signing in...' : 'Sign In'}
-                        {!loading && <ArrowRight size={20} />}
-                    </button>
-                </form>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                            style={{
+                                marginTop: '12px',
+                                padding: '16px',
+                                backgroundColor: loading ? 'rgba(255, 255, 255, 0.5)' : '#ffffff',
+                                color: '#000000',
+                                border: 'none',
+                                borderRadius: '16px',
+                                fontSize: '16px',
+                                fontWeight: '700',
+                                cursor: loading ? 'not-allowed' : 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                gap: '8px',
+                                transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                                boxShadow: '0 10px 20px -5px rgba(0,0,0,0.3)'
+                            }}
+                            onMouseEnter={(e) => !loading && (e.currentTarget.style.transform = 'translateY(-2px)')}
+                            onMouseLeave={(e) => !loading && (e.currentTarget.style.transform = 'translateY(0)')}
+                        >
+                            {loading ? 'Sending Code...' : 'Continue'}
+                            {!loading && <ArrowRight size={20} />}
+                        </button>
+                    </form>
+                ) : (
+                    <form onSubmit={handleVerifyOtp} style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '24px',
+                        animation: 'fadeIn 0.5s ease-out'
+                    }}>
+                        <div style={{ textAlign: 'center' }}>
+                            <p style={{
+                                color: 'rgba(255, 255, 255, 0.6)',
+                                fontSize: '14px',
+                                lineHeight: '1.6',
+                                marginBottom: '8px'
+                            }}>
+                                We've sent a 6-digit verification code to<br />
+                                <strong style={{ color: '#FCD34D' }}>{email}</strong>
+                            </p>
+                        </div>
+
+                        <div style={{ position: 'relative' }}>
+                            <input
+                                type="text"
+                                placeholder="000000"
+                                value={otp}
+                                onChange={(e) => {
+                                    const val = e.target.value.replace(/[^0-9]/g, '');
+                                    if (val.length <= 6) setOtp(val);
+                                }}
+                                inputMode="numeric"
+                                pattern="[0-9]*"
+                                autoComplete="one-time-code"
+                                style={{
+                                    width: '100%',
+                                    padding: '20px',
+                                    background: 'rgba(255, 255, 255, 0.05)',
+                                    border: '2px dashed rgba(252, 211, 77, 0.3)',
+                                    borderRadius: '20px',
+                                    color: 'white',
+                                    fontSize: '32px',
+                                    fontWeight: '700',
+                                    letterSpacing: '12px',
+                                    textAlign: 'center',
+                                    outline: 'none',
+                                    transition: 'all 0.3s ease',
+                                    boxSizing: 'border-box',
+                                    textShadow: '0 0 10px rgba(252, 211, 77, 0.2)'
+                                }}
+                                onFocus={(e) => {
+                                    e.target.style.borderColor = '#FCD34D';
+                                    e.target.style.background = 'rgba(252, 211, 77, 0.05)';
+                                }}
+                                onBlur={(e) => {
+                                    e.target.style.borderColor = 'rgba(252, 211, 77, 0.3)';
+                                    e.target.style.background = 'rgba(255, 255, 255, 0.05)';
+                                }}
+                                required
+                            />
+                        </div>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                            <button
+                                type="submit"
+                                disabled={loading || otp.length < 6}
+                                style={{
+                                    padding: '16px',
+                                    backgroundColor: (loading || otp.length < 6) ? 'rgba(252, 211, 77, 0.3)' : '#FCD34D',
+                                    color: '#000000',
+                                    border: 'none',
+                                    borderRadius: '16px',
+                                    fontSize: '16px',
+                                    fontWeight: '700',
+                                    cursor: (loading || otp.length < 6) ? 'not-allowed' : 'pointer',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    gap: '8px',
+                                    transition: 'all 0.2s ease'
+                                }}
+                            >
+                                {loading ? 'Verifying...' : 'Verify Identity'}
+                                {!loading && <ArrowRight size={20} />}
+                            </button>
+
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setShowOtp(false);
+                                    setOtp('');
+                                    setSuccessMsg('');
+                                }}
+                                style={{
+                                    background: 'transparent',
+                                    border: 'none',
+                                    color: 'rgba(255, 255, 255, 0.4)',
+                                    fontSize: '13px',
+                                    cursor: 'pointer',
+                                    marginTop: '8px',
+                                    transition: 'color 0.2s'
+                                }}
+                                onMouseEnter={(e) => e.currentTarget.style.color = '#FCD34D'}
+                                onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.4)'}
+                            >
+                                Use a different account? Go back
+                            </button>
+                        </div>
+                    </form>
+                )}
             </div>
+
+            <style>{`
+                @keyframes fadeIn {
+                    from { opacity: 0; transform: translateY(10px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+                input::placeholder {
+                    color: rgba(255, 255, 255, 0.2);
+                }
+            `}</style>
         </div>
     );
 }
