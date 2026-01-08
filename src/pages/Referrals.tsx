@@ -30,13 +30,9 @@ interface OverviewData {
     totalNetwork: number;
     activeUsers: number;
     totalEarnings: number;
-    distributionSettings: {
+    settings: {
         maxPayoutPercent: number;
-        level1Percent: number;
-        level2Percent: number;
-        level3Percent: number;
-        level4Percent: number;
-        level5Percent: number;
+        levelPercents: number[];
     };
     networkGrowth: { month: string; direct: number; indirect: number }[];
     topReferrers: ReferralUser[];
@@ -92,13 +88,9 @@ export default function Referrals() {
         totalNetwork: 0,
         activeUsers: 0,
         totalEarnings: 0,
-        distributionSettings: {
-            maxPayoutPercent: 4.0,
-            level1Percent: 2.0,
-            level2Percent: 2.0,
-            level3Percent: 2.0,
-            level4Percent: 2.0,
-            level5Percent: 2.0
+        settings: {
+            maxPayoutPercent: 10.0,
+            levelPercents: [2.0, 2.0, 2.0, 2.0, 2.0]
         },
         networkGrowth: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map(month => ({
             month,
@@ -168,7 +160,7 @@ export default function Referrals() {
                         {/* Max Payout */}
                         <div style={{ padding: '16px', backgroundColor: '#F9F9F9', borderRadius: '16px' }}>
                             <div style={{ fontSize: '12px', color: '#666', marginBottom: '4px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Max Payout Cap</div>
-                            <div style={{ fontSize: '28px', fontWeight: '800', color: '#1c1c1e' }}>{safeOverview.distributionSettings.maxPayoutPercent}%</div>
+                            <div style={{ fontSize: '28px', fontWeight: '800', color: '#1c1c1e' }}>{safeOverview.settings.maxPayoutPercent}%</div>
                         </div>
 
                         {/* Levels */}
@@ -179,7 +171,7 @@ export default function Referrals() {
                                     <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: 'rgba(245, 206, 87, 0.2)', color: '#D97706', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '14px' }}>A1</div>
                                     <span style={{ fontWeight: '600', color: '#1c1c1e' }}>Direct</span>
                                 </div>
-                                <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.distributionSettings.level1Percent}%</span>
+                                <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.settings.levelPercents[0]}%</span>
                             </div>
 
                             {/* A2 */}
@@ -188,7 +180,7 @@ export default function Referrals() {
                                     <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: 'rgba(28, 28, 30, 0.05)', color: '#1c1c1e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '14px' }}>A2</div>
                                     <span style={{ fontWeight: '600', color: '#1c1c1e' }}>Level 2</span>
                                 </div>
-                                <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.distributionSettings.level2Percent}%</span>
+                                <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.settings.levelPercents[1]}%</span>
                             </div>
 
                             {/* A3 */}
@@ -197,7 +189,7 @@ export default function Referrals() {
                                     <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: 'rgba(28, 28, 30, 0.05)', color: '#1c1c1e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '14px' }}>A3</div>
                                     <span style={{ fontWeight: '600', color: '#1c1c1e' }}>Level 3</span>
                                 </div>
-                                <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.distributionSettings.level3Percent}%</span>
+                                <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.settings.levelPercents[2]}%</span>
                             </div>
 
                             {/* A4 */}
@@ -206,7 +198,7 @@ export default function Referrals() {
                                     <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: 'rgba(28, 28, 30, 0.05)', color: '#1c1c1e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '14px' }}>A4</div>
                                     <span style={{ fontWeight: '600', color: '#1c1c1e' }}>Level 4</span>
                                 </div>
-                                <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.distributionSettings.level4Percent}%</span>
+                                <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.settings.levelPercents[3]}%</span>
                             </div>
 
                             {/* A5 */}
@@ -215,7 +207,7 @@ export default function Referrals() {
                                     <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: 'rgba(28, 28, 30, 0.05)', color: '#1c1c1e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '14px' }}>A5</div>
                                     <span style={{ fontWeight: '600', color: '#1c1c1e' }}>Level 5</span>
                                 </div>
-                                <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.distributionSettings.level5Percent}%</span>
+                                <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.settings.levelPercents[4]}%</span>
                             </div>
                         </div>
                     </div>
