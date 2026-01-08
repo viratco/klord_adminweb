@@ -13,6 +13,8 @@ interface ReferralUser {
         a1: number;
         a2: number;
         a3: number;
+        a4: number;
+        a5: number;
     };
 }
 
@@ -20,6 +22,8 @@ interface DetailedDownline {
     a1: { id: string; phoneNumber: string; joinedAt: string }[];
     a2: { id: string; phoneNumber: string; joinedAt: string }[];
     a3: { id: string; phoneNumber: string; joinedAt: string }[];
+    a4: { id: string; phoneNumber: string; joinedAt: string }[];
+    a5: { id: string; phoneNumber: string; joinedAt: string }[];
 }
 
 interface OverviewData {
@@ -31,6 +35,8 @@ interface OverviewData {
         level1Percent: number;
         level2Percent: number;
         level3Percent: number;
+        level4Percent: number;
+        level5Percent: number;
     };
     networkGrowth: { month: string; direct: number; indirect: number }[];
     topReferrers: ReferralUser[];
@@ -89,8 +95,10 @@ export default function Referrals() {
         distributionSettings: {
             maxPayoutPercent: 4.0,
             level1Percent: 2.0,
-            level2Percent: 1.0,
-            level3Percent: 1.0
+            level2Percent: 2.0,
+            level3Percent: 2.0,
+            level4Percent: 2.0,
+            level5Percent: 2.0
         },
         networkGrowth: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map(month => ({
             month,
@@ -190,6 +198,24 @@ export default function Referrals() {
                                     <span style={{ fontWeight: '600', color: '#1c1c1e' }}>Level 3</span>
                                 </div>
                                 <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.distributionSettings.level3Percent}%</span>
+                            </div>
+
+                            {/* A4 */}
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', border: '1px solid #eee', borderRadius: '12px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: 'rgba(28, 28, 30, 0.05)', color: '#1c1c1e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '14px' }}>A4</div>
+                                    <span style={{ fontWeight: '600', color: '#1c1c1e' }}>Level 4</span>
+                                </div>
+                                <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.distributionSettings.level4Percent}%</span>
+                            </div>
+
+                            {/* A5 */}
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '12px', border: '1px solid #eee', borderRadius: '12px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                    <div style={{ width: '32px', height: '32px', borderRadius: '8px', backgroundColor: 'rgba(28, 28, 30, 0.05)', color: '#1c1c1e', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '700', fontSize: '14px' }}>A5</div>
+                                    <span style={{ fontWeight: '600', color: '#1c1c1e' }}>Level 5</span>
+                                </div>
+                                <span style={{ fontWeight: '700', fontSize: '16px' }}>{safeOverview.distributionSettings.level5Percent}%</span>
                             </div>
                         </div>
                     </div>
@@ -428,54 +454,92 @@ export default function Referrals() {
                                 </div>
                             </div>
 
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', marginBottom: '24px' }}>
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '12px', marginBottom: '24px' }}>
                                 <div style={{ backgroundColor: '#FFFBEB', padding: '12px', borderRadius: '12px', border: '1px solid #FEF3C7' }}>
-                                    <div style={{ fontSize: '12px', color: '#92400E', marginBottom: '4px' }}>Direct (A1)</div>
-                                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#B45309' }}>{selectedUser.downline.a1}</div>
+                                    <div style={{ fontSize: '12px', color: '#92400E', marginBottom: '4px' }}>A1</div>
+                                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#B45309' }}>{selectedUser.downline.a1}</div>
                                 </div>
                                 <div style={{ backgroundColor: '#F9FAFB', padding: '12px', borderRadius: '12px', border: '1px solid #E5E7EB' }}>
-                                    <div style={{ fontSize: '12px', color: '#374151', marginBottom: '4px' }}>Level 2 (A2)</div>
-                                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#1F2937' }}>{selectedUser.downline.a2}</div>
+                                    <div style={{ fontSize: '12px', color: '#374151', marginBottom: '4px' }}>A2</div>
+                                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937' }}>{selectedUser.downline.a2}</div>
                                 </div>
                                 <div style={{ backgroundColor: '#F9FAFB', padding: '12px', borderRadius: '12px', border: '1px solid #E5E7EB' }}>
-                                    <div style={{ fontSize: '12px', color: '#374151', marginBottom: '4px' }}>Level 3 (A3)</div>
-                                    <div style={{ fontSize: '20px', fontWeight: '700', color: '#1F2937' }}>{selectedUser.downline.a3}</div>
+                                    <div style={{ fontSize: '12px', color: '#374151', marginBottom: '4px' }}>A3</div>
+                                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937' }}>{selectedUser.downline.a3}</div>
+                                </div>
+                                <div style={{ backgroundColor: '#F9FAFB', padding: '12px', borderRadius: '12px', border: '1px solid #E5E7EB' }}>
+                                    <div style={{ fontSize: '12px', color: '#374151', marginBottom: '4px' }}>A4</div>
+                                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937' }}>{selectedUser.downline.a4}</div>
+                                </div>
+                                <div style={{ backgroundColor: '#F9FAFB', padding: '12px', borderRadius: '12px', border: '1px solid #E5E7EB' }}>
+                                    <div style={{ fontSize: '12px', color: '#374151', marginBottom: '4px' }}>A5</div>
+                                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937' }}>{selectedUser.downline.a5}</div>
                                 </div>
                             </div>
 
                             {loadingDetails ? (
                                 <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>Loading details...</div>
                             ) : detailedDownline && (
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '16px', flex: 1, overflowY: 'auto', padding: '4px' }}>
-                                    {/* A1 Column */}
-                                    <DownlineColumn
-                                        level="A1"
-                                        title="Direct"
-                                        subtitle="Level 1"
-                                        members={detailedDownline.a1}
-                                        gradient="linear-gradient(135deg, #F5CE57 0%, #D97706 100%)"
-                                        color="#1c1c1e"
-                                    />
+                                <div style={{ display: 'flex', gap: '16px', flex: 1, overflowX: 'auto', padding: '4px', paddingBottom: '12px' }}>
+                                    <div style={{ minWidth: '260px', flex: 1 }}>
+                                        {/* A1 Column */}
+                                        <DownlineColumn
+                                            level="A1"
+                                            title="Direct"
+                                            subtitle="Level 1"
+                                            members={detailedDownline.a1}
+                                            gradient="linear-gradient(135deg, #F5CE57 0%, #D97706 100%)"
+                                            color="#1c1c1e"
+                                        />
+                                    </div>
 
-                                    {/* A2 Column */}
-                                    <DownlineColumn
-                                        level="A2"
-                                        title="Level 2"
-                                        subtitle="Indirect"
-                                        members={detailedDownline.a2}
-                                        gradient="linear-gradient(135deg, #374151 0%, #111827 100%)"
-                                        color="#374151"
-                                    />
+                                    <div style={{ minWidth: '260px', flex: 1 }}>
+                                        {/* A2 Column */}
+                                        <DownlineColumn
+                                            level="A2"
+                                            title="Level 2"
+                                            subtitle="Indirect"
+                                            members={detailedDownline.a2}
+                                            gradient="linear-gradient(135deg, #374151 0%, #111827 100%)"
+                                            color="#374151"
+                                        />
+                                    </div>
 
-                                    {/* A3 Column */}
-                                    <DownlineColumn
-                                        level="A3"
-                                        title="Level 3"
-                                        subtitle="Extended"
-                                        members={detailedDownline.a3}
-                                        gradient="linear-gradient(135deg, #9CA3AF 0%, #4B5563 100%)"
-                                        color="#4B5563"
-                                    />
+                                    <div style={{ minWidth: '260px', flex: 1 }}>
+                                        {/* A3 Column */}
+                                        <DownlineColumn
+                                            level="A3"
+                                            title="Level 3"
+                                            subtitle="Extended"
+                                            members={detailedDownline.a3}
+                                            gradient="linear-gradient(135deg, #9CA3AF 0%, #4B5563 100%)"
+                                            color="#4B5563"
+                                        />
+                                    </div>
+
+                                    <div style={{ minWidth: '260px', flex: 1 }}>
+                                        {/* A4 Column */}
+                                        <DownlineColumn
+                                            level="A4"
+                                            title="Level 4"
+                                            subtitle="Extended"
+                                            members={detailedDownline.a4}
+                                            gradient="linear-gradient(135deg, #9CA3AF 0%, #4B5563 100%)"
+                                            color="#4B5563"
+                                        />
+                                    </div>
+
+                                    <div style={{ minWidth: '260px', flex: 1 }}>
+                                        {/* A5 Column */}
+                                        <DownlineColumn
+                                            level="A5"
+                                            title="Level 5"
+                                            subtitle="Extended"
+                                            members={detailedDownline.a5}
+                                            gradient="linear-gradient(135deg, #9CA3AF 0%, #4B5563 100%)"
+                                            color="#4B5563"
+                                        />
+                                    </div>
                                 </div>
                             )}
                         </>
