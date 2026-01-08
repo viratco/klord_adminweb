@@ -84,7 +84,8 @@ export default function Referrals() {
     };
 
     // Default empty overview if no data
-    const safeOverview = overview || {
+    // Default empty overview if no data
+    const defaults = {
         totalNetwork: 0,
         activeUsers: 0,
         totalEarnings: 0,
@@ -99,6 +100,11 @@ export default function Referrals() {
         })),
         topReferrers: []
     };
+
+    const safeOverview = overview ? {
+        ...overview,
+        settings: overview.settings || defaults.settings
+    } : defaults;
 
     const filteredUsers = safeOverview.topReferrers.filter(user =>
         user.phoneNumber.includes(searchQuery) ||
