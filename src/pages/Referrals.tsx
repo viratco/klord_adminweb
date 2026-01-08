@@ -13,8 +13,8 @@ interface ReferralUser {
         a1: number;
         a2: number;
         a3: number;
-        a4: number;
-        a5: number;
+        a4?: number;
+        a5?: number;
     };
 }
 
@@ -22,8 +22,8 @@ interface DetailedDownline {
     a1: { id: string; phoneNumber: string; joinedAt: string }[];
     a2: { id: string; phoneNumber: string; joinedAt: string }[];
     a3: { id: string; phoneNumber: string; joinedAt: string }[];
-    a4: { id: string; phoneNumber: string; joinedAt: string }[];
-    a5: { id: string; phoneNumber: string; joinedAt: string }[];
+    a4?: { id: string; phoneNumber: string; joinedAt: string }[];
+    a5?: { id: string; phoneNumber: string; joinedAt: string }[];
 }
 
 interface OverviewData {
@@ -287,8 +287,8 @@ export default function Referrals() {
                         </div>
 
                         <div style={{ flex: 1, display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', paddingBottom: '24px', gap: '8px' }}>
-                            {safeOverview.networkGrowth.map((data, i) => {
-                                const maxValue = Math.max(...safeOverview.networkGrowth.map(d => Math.max(d.direct, d.indirect)));
+                            {safeOverview.networkGrowth?.map((data, i) => {
+                                const maxValue = Math.max(...(safeOverview.networkGrowth || []).map(d => Math.max(d.direct, d.indirect)));
                                 const h1 = maxValue > 0 ? (data.direct / maxValue) * 100 : 0;
                                 const h2 = maxValue > 0 ? (data.indirect / maxValue) * 100 : 0;
                                 return (
@@ -357,7 +357,7 @@ export default function Referrals() {
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', overflowY: 'auto', maxHeight: '400px' }}>
-                        {filteredUsers.map(user => (
+                        {filteredUsers?.map(user => (
                             <div
                                 key={user.id}
                                 onClick={() => handleUserSelect(user)}
@@ -469,11 +469,11 @@ export default function Referrals() {
                                 </div>
                                 <div style={{ backgroundColor: '#F9FAFB', padding: '12px', borderRadius: '12px', border: '1px solid #E5E7EB' }}>
                                     <div style={{ fontSize: '12px', color: '#374151', marginBottom: '4px' }}>A4</div>
-                                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937' }}>{selectedUser.downline.a4}</div>
+                                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937' }}>{selectedUser.downline.a4 ?? 0}</div>
                                 </div>
                                 <div style={{ backgroundColor: '#F9FAFB', padding: '12px', borderRadius: '12px', border: '1px solid #E5E7EB' }}>
                                     <div style={{ fontSize: '12px', color: '#374151', marginBottom: '4px' }}>A5</div>
-                                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937' }}>{selectedUser.downline.a5}</div>
+                                    <div style={{ fontSize: '18px', fontWeight: '700', color: '#1F2937' }}>{selectedUser.downline.a5 ?? 0}</div>
                                 </div>
                             </div>
 
@@ -523,7 +523,7 @@ export default function Referrals() {
                                             level="A4"
                                             title="Level 4"
                                             subtitle="Extended"
-                                            members={detailedDownline.a4}
+                                            members={detailedDownline.a4 || []}
                                             gradient="linear-gradient(135deg, #9CA3AF 0%, #4B5563 100%)"
                                             color="#4B5563"
                                         />
@@ -535,7 +535,7 @@ export default function Referrals() {
                                             level="A5"
                                             title="Level 5"
                                             subtitle="Extended"
-                                            members={detailedDownline.a5}
+                                            members={detailedDownline.a5 || []}
                                             gradient="linear-gradient(135deg, #9CA3AF 0%, #4B5563 100%)"
                                             color="#4B5563"
                                         />
