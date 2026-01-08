@@ -414,7 +414,8 @@ export default function Referrals() {
                     minHeight: '300px',
                     boxShadow: '0 4px 24px rgba(0,0,0,0.06)',
                     display: 'flex',
-                    flexDirection: 'column'
+                    flexDirection: 'column',
+                    overflow: 'hidden'
                 }}>
                     {selectedUser && (
                         <>
@@ -454,7 +455,7 @@ export default function Referrals() {
                                 </div>
                             </div>
 
-                            <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', overflowX: 'auto', paddingBottom: '4px' }}>
+                            <div style={{ display: 'flex', gap: '12px', marginBottom: '24px', overflowX: 'auto', paddingBottom: '4px', maxWidth: '100%' }}>
                                 <div style={{ backgroundColor: '#FFFBEB', padding: '12px', borderRadius: '12px', border: '1px solid #FEF3C7', minWidth: '80px', flex: 1 }}>
                                     <div style={{ fontSize: '12px', color: '#92400E', marginBottom: '4px' }}>A1</div>
                                     <div style={{ fontSize: '18px', fontWeight: '700', color: '#B45309' }}>{selectedUser.downline.a1}</div>
@@ -480,7 +481,7 @@ export default function Referrals() {
                             {loadingDetails ? (
                                 <div style={{ textAlign: 'center', padding: '40px', color: '#666' }}>Loading details...</div>
                             ) : detailedDownline && (
-                                <div style={{ display: 'flex', gap: '16px', flex: 1, overflowX: 'auto', padding: '4px', paddingBottom: '12px' }}>
+                                <div style={{ display: 'flex', gap: '16px', flex: 1, overflowX: 'auto', padding: '4px', paddingBottom: '12px', maxWidth: '100%', width: '100%' }}>
                                     <div style={{ minWidth: '260px', flex: 1 }}>
                                         {/* A1 Column */}
                                         <DownlineColumn
